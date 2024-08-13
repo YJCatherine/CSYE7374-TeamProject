@@ -1,4 +1,4 @@
-package AuthenticationSystem;
+package src.AuthenticationSystem;
 
 public class InventoryManagement {
 
