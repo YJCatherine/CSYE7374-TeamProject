@@ -1,3 +1,5 @@
+package src.BookCategoryManagement;
+
 public class BookDecorator implements BookComponent{
     protected BookComponent decoratedBook;
 

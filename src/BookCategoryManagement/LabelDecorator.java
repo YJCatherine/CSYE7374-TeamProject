@@ -1,3 +1,5 @@
+package src.BookCategoryManagement;
+
 public class LabelDecorator extends BookDecorator{
     private String label;
 
