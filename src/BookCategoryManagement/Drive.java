@@ -1,39 +1,59 @@
 package src.BookCategoryManagement;
 
-import java.util.Arrays;
+import src.LibraryCardManagement.*;
 
-public class Drive {
+public class Driver {
+    public static void main(String[] args) {
+        // Create a library card for a student
+        LibraryCard studentCard = new LibraryCard();
+        System.out.println("A new student library card created.");
 
-    public static void main(String args[]) throws Exception {
-        System.out.println("########### Book Category Management System Starts ###############\n");
-        LibraryFacade library = new LibraryFacade();
-        library.addBook("Effective Java", "Joshua Bloch", "A programming book for Java developers",
-                "2008-05-28", "Technical");
-        library.addBook("Clean Code", "Robert C. Martin", "A guide to writing clean and " +
-                "maintainable code", "2008-08-01", "Technical");
-        library.addBook("The Lean Startup", "Eric Ries", "A book on modern entrepreneurship and " +
-                "management", "2011-09-13", "Management");
-        library.addBook("To Kill a Mockingbird", "Harper Lee", "A classic of modern American " +
-                "literature", "1960-07-11", "Literature");
-        library.addBook("The Catcher in the Rye", "J.D. Salinger", "A novel about teenage " +
-                "alienation and rebellion", "1951-07-16", "Literature", "Entertainment");
+        // Student borrowing books
+        studentCard.borrowBook();
+        studentCard.returnBook();
 
-        System.out.println("Technical Books:");
-        library.showBooksByCategory("Technical");
+        // Simulate changing state to suspended due to frequent overdue
+        studentCard.setState(new SuspendedState());
+        System.out.println("Student card is now suspended due to frequent overdue.");
 
-        System.out.println("\nLiterature Books:");
-        library.showBooksByCategory("Literature");
+        // Trying to borrow with suspended card
+        studentCard.borrowBook();
+        studentCard.returnBook();
 
-        System.out.println("\nCreating a Serial for Graduate Students:");
-        library.createSerial("Books a Professional Programmer Needs to Read", "Technical", "Management");
+        // Simulating overdue fine calculation
+        FineStrategy studentStrategy = new StudentFineStrategy();
+        int daysLate = 5; // Student returning book 5 days late
+        double fine = studentStrategy.calculateFine(daysLate);
+        System.out.println("Student fine for " + daysLate + " days late: " + fine);
 
-        library.addBook("The Pragmatic Programmer", "Andrew Hunt", "A book for software developers " +
-                "on programming and best practices", "1999-10-30", "Technical", "Literature");
-        System.out.println("\nTechnical Books After Adding New Book:");
-        library.showBooksByCategory("Technical");
+        // Create a library card for a staff member
+        LibraryCard staffCard = new LibraryCard();
+        System.out.println("A new staff library card created.");
+        staffCard.setState(new ActiveState());
 
-        System.out.println("\n########### Book Category Management System Ends ###############");
+        // Staff borrowing books
+        staffCard.borrowBook();
+        staffCard.returnBook();
 
+        // Simulating overdue fine calculation for staff
+        FineStrategy staffStrategy = new StaffFineStrategy();
+        daysLate = 3; // Staff returning book 3 days late
+        fine = staffStrategy.calculateFine(daysLate);
+        System.out.println("Staff fine for " + daysLate + " days late: " + fine);
 
+        // Create a library card for a public member
+        LibraryCard publicCard = new LibraryCard();
+        System.out.println("A new public library card created.");
+        publicCard.setState(new ActiveState());
+
+        // Public member borrowing books
+        publicCard.borrowBook();
+        publicCard.returnBook();
+
+        // Simulating overdue fine calculation for public
+        FineStrategy publicStrategy = new PublicFineStrategy();
+        daysLate = 2; // Public returning book 2 days late
+        fine = publicStrategy.calculateFine(daysLate);
+        System.out.println("Public fine for " + daysLate + " days late: " + fine);
     }
 }
